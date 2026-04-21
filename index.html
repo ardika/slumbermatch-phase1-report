@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SlumberMatch — Phase 1 Report</title>
+<meta name="description" content="Phase 1 (Week 1) foundation report for the SlumberMatch Webflow v1 build.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0E1E33;
+    --navy: #162840;
+    --deep-teal: #1A5F6E;
+    --ocean: #2A8899;
+    --mist: #7EC8D3;
+    --foam: #C5E8ED;
+    --dawn: #EDF7F9;
+    --warm-white: #F8FAFB;
+    --dusk: #8A9BB0;
+    --gold: #C8894A;
+    --text-mid: #3A5068;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 300;
+    background: var(--warm-white);
+    color: var(--midnight);
+  }
+
+  .hero {
+    background: var(--midnight);
+    padding: 88px 48px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,136,153,0.12) 0%, transparent 65%);
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(126,200,211,0.07) 0%, transparent 65%);
+    bottom: -150px; left: 10%;
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(42,136,153,0.15);
+    border: 1px solid rgba(126,200,211,0.25);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--mist);
+    margin-bottom: 28px;
+  }
+  .kicker::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--mist);
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(42px, 5.5vw, 64px);
+    color: white;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: normal; color: var(--mist); }
+  .hero p {
+    font-size: 18px;
+    color: var(--dusk);
+    max-width: 620px;
+    line-height: 1.65;
+  }
+  .hero-meta {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 44px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-meta-item { font-size: 13px; color: var(--dusk); }
+  .hero-meta-item strong {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 72px 48px; }
+  section { margin-bottom: 64px; }
+  section:last-child { margin-bottom: 0; }
+
+  .section-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ocean);
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3.5vw, 40px);
+    color: var(--midnight);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  h3 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--midnight);
+    line-height: 1.3;
+    margin: 32px 0 16px;
+  }
+  p { color: var(--text-mid); margin-bottom: 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  .deliverables {
+    background: white;
+    border: 1px solid var(--foam);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .deliverable {
+    padding: 20px 28px;
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 20px;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--foam);
+  }
+  .deliverable:last-child { border-bottom: none; }
+  .deliverable-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--foam);
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .deliverable-body h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--midnight);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .deliverable-body p {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 50px;
+    white-space: nowrap;
+  }
+  .status-done { background: rgba(42,136,153,0.15); color: var(--ocean); }
+  .status-done::before { content: '✓'; }
+  .status-handoff { background: rgba(200,137,74,0.15); color: var(--gold); }
+  .status-handoff::before { content: '→'; }
+
+  .review-panel {
+    background: var(--dawn);
+    border-left: 3px solid var(--ocean);
+    padding: 28px 32px;
+    border-radius: 14px;
+    margin-top: 24px;
+  }
+  .review-panel h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ocean);
+    margin: 0 0 18px;
+  }
+  .review-steps { display: flex; flex-direction: column; gap: 14px; }
+  .review-step {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 14px;
+  }
+  .review-step-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--ocean);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .review-step-body { color: var(--text-mid); }
+  .review-step-body strong { color: var(--midnight); font-weight: 600; }
+  code {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 13px;
+    background: var(--foam);
+    color: var(--deep-teal);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .note {
+    background: var(--foam);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-top: 28px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .note-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ocean);
+    margin-bottom: 8px;
+  }
+
+  footer {
+    background: var(--midnight);
+    color: var(--dusk);
+    padding: 44px 48px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: var(--mist); text-decoration: none; }
+  footer a:hover { color: white; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 64px 24px 56px; }
+    main { padding: 56px 24px; }
+    footer { padding: 36px 24px; }
+    .deliverable { grid-template-columns: 32px 1fr; padding: 18px 20px; }
+    .deliverable .status { grid-column: 2; justify-self: start; margin-top: 8px; }
+    .review-panel { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="kicker">Phase 1 of 4 · Foundation</div>
+    <h1>SlumberMatch — Week 1 <em>complete.</em></h1>
+    <p>Foundation phase of the v1 Webflow build is live in the client's workspace. Brand tokens, typography system, global components, and an 8-section landing page scaffold are in place, built with zero custom code.</p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>4 weeks</strong>Total project timeline</div>
+      <div class="hero-meta-item"><strong>Week 1 of 4</strong>Phase complete</div>
+      <div class="hero-meta-item"><strong>Zero code</strong>Pure Webflow + third-party stack</div>
+      <div class="hero-meta-item"><strong>May 2026</strong>Target launch</div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<section>
+  <div class="section-kicker">Deliverables</div>
+  <h2>Week 1 scope — what's shipped</h2>
+  <p>Every item in the agreed Week 1 scope is covered in the Webflow Designer. The one previously-planned step (global custom head code) was removed because the client's zero-custom-code rule is satisfied by Webflow's native features for smooth scroll and reduced-motion handling.</p>
+
+  <div class="deliverables">
+    <div class="deliverable">
+      <div class="deliverable-num">01</div>
+      <div class="deliverable-body">
+        <h4>Webflow project created</h4>
+        <p>Blank-template project under the client's workspace. Site name and Webflow subdomain set.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">02</div>
+      <div class="deliverable-body">
+        <h4>Custom domain connection</h4>
+        <p>Domain already purchased. Client is handling DNS cutover directly.</p>
+      </div>
+      <div class="status status-handoff">Client</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">03</div>
+      <div class="deliverable-body">
+        <h4>Typography loaded</h4>
+        <p>DM Serif Display (Regular + Italic) and DM Sans (300 Light, 400, 500, 600, 700, 300 Italic) pulled via Webflow's Google Fonts integration.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">04</div>
+      <div class="deliverable-body">
+        <h4>11 brand color variables</h4>
+        <p>Midnight, Navy, Deep Teal, Ocean, Mist, Foam, Dawn, Warm White, Dusk, Gold, and Text Mid — all created as native Webflow variables under the Base collection for site-wide binding.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">05</div>
+      <div class="deliverable-body">
+        <h4>Body tag base styles</h4>
+        <p>DM Sans, 16px, 27px line-height (1.69 ratio), 300 weight, Midnight text color, Warm White background — applied at the Body tag level so all pages inherit.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">06</div>
+      <div class="deliverable-body">
+        <h4>H1–H6 tag-level defaults</h4>
+        <p>All six heading tags styled per brand guide. H5 includes ALL CAPS transform and 0.14em letter-spacing in Dusk for kicker/label use.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">07</div>
+      <div class="deliverable-body">
+        <h4>Global components</h4>
+        <p>Three native Webflow Components created: <code>nav-marketing</code>, <code>nav-profile</code>, and <code>footer-global</code>. Shells are in place; content population happens in Phase 2.</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+    <div class="deliverable">
+      <div class="deliverable-num">08</div>
+      <div class="deliverable-body">
+        <h4>Landing page scaffold</h4>
+        <p>Eight sections with correct brand backgrounds: hero-section (Midnight), trust-bar (Navy), how-it-works (Warm White), match-preview (Midnight), philosophy-section (Warm White), testimonials (Dawn), for-consultants (Deep Teal), cta-band (Midnight).</p>
+      </div>
+      <div class="status status-done">Done</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-kicker">How to review</div>
+  <h2>What to look for in the Designer</h2>
+  <p>The client has login access to the Webflow project. Signed in, the following four checks verify that every deliverable above is in place.</p>
+
+  <div class="review-panel">
+    <h3>Inspection checklist</h3>
+    <div class="review-steps">
+      <div class="review-step">
+        <div class="review-step-num">1</div>
+        <div class="review-step-body">
+          <strong>Navigator panel (left).</strong> Eight named sections under Body — <code>hero-section</code> through <code>cta-band</code> — plus three green Component icons: <code>nav-marketing</code>, <code>nav-profile</code>, <code>footer-global</code>.
+        </div>
+      </div>
+      <div class="review-step">
+        <div class="review-step-num">2</div>
+        <div class="review-step-body">
+          <strong>Style panel (right).</strong> Click any section; the class name and correct background color appear under Style. Backgrounds match the brand palette.
+        </div>
+      </div>
+      <div class="review-step">
+        <div class="review-step-num">3</div>
+        <div class="review-step-body">
+          <strong>Variables panel (left sidebar, V icon).</strong> Base collection shows all 11 color variables with hex values matching the brand guide.
+        </div>
+      </div>
+      <div class="review-step">
+        <div class="review-step-num">4</div>
+        <div class="review-step-body">
+          <strong>Site Settings → Fonts.</strong> DM Serif Display and DM Sans are loaded with the weight sets used across the design system.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note-label">Note</div>
+    The original Week 1 checklist included a step for global custom head code (smooth scroll, reduced-motion). That step was removed because Webflow's built-in Interactions respect <code>prefers-reduced-motion</code> natively, and smooth anchor scrolling is a native setting. No custom code is needed anywhere on this project, matching the stated no-code constraint.
+  </div>
+</section>
+
+<section>
+  <div class="section-kicker">Next phase</div>
+  <h2>Phase 2 — core pages</h2>
+  <p>With the foundation in place, Phase 2 populates the landing page with full content from the design (hero, trust bar, how-it-works, philosophy cards, testimonials, CTA band, waitlist form embed), builds the Partner Profile CMS template with all AT-5 fields, configures one-way Whalesync from Airtable to the Webflow CMS, and stands up the filterable directory page.</p>
+  <p>All Phase 2 work stays within the same stack: Webflow + Airtable + Whalesync + Typeform embeds. Zero custom code.</p>
+</section>
+
+</main>
+
+<footer>
+  <p>SlumberMatch v1 Webflow build · Phase 1 (Week 1) complete. Built by <a href="https://github.com/ardika">@ardika</a>.</p>
+</footer>
+
+</body>
+</html>
